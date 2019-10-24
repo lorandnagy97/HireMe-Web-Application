@@ -1,15 +1,20 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, \
-    PasswordField, BooleanField, \
-    TextAreaField, DecimalField, \
-    SubmitField
-from wtforms.validators import DataRequired, Email, EqualTo, Length
+from wtforms import \
+    StringField, TextAreaField, \
+    DecimalField, SubmitField
+from wtforms.validators import \
+    DataRequired, Email
 
 
 class ContactForm(FlaskForm):
+    """
+    Form allowing potential employers
+    to easily contact me with potential
+    employment prospects.
+    """
     recruiter_email = StringField(
         'Email',
-        validators=[DataRequired()]
+        validators=[Email()]
     )
     recruiter_company = StringField(
         'Company',
@@ -21,7 +26,7 @@ class ContactForm(FlaskForm):
     )
     pay_offer = DecimalField(
         'Monthly Pay',
-        default=0
+        default=None
     )
     job_description = TextAreaField(
         'Job Description',

@@ -2,8 +2,7 @@
 
 {% block styles %}
 {{super()}}
-<link rel="stylesheet"
-      href="{{url_for('static', filename='css/base.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='css/base.css')}}">
 {% endblock %}
 
 {% block title %}
@@ -42,17 +41,17 @@
 								<div class="dropdown-divider"><hr style="margin:0px;"></div>
 								<a class="dropdown-item" href="{{ url_for('skills.python') }}"><center>Python</center></a>
 								<div class="dropdown-divider"><hr style="margin:0px;"></div>
-								<a class="dropdown-item" href="#"><center>Javascript</center></a>
+								<a class="dropdown-item" href="{{ url_for('skills.procedural_game') }}"><center>Javascript</center></a>
 								<div class="dropdown-divider"><hr style="margin:0px;"></div>
-								<a class="dropdown-item" href="#"><center>PHP</center></a>
+								<a class="dropdown-item disabled" tabindex="-1" href="#"><center>PHP</center></a>
 								<div class="dropdown-divider"><hr style="margin:0px;"></div>
-								<a class="dropdown-item" href="#"><center>Bash</center></a>
+								<a class="dropdown-item disabled" tabindex="-1" href="#"><center>Bash</center></a>
 								<div class="dropdown-divider"><hr style="margin:0px;"></div>
-								<a class="dropdown-item" href="#"><center>Databases</center></a>
+								<a class="dropdown-item disabled" tabindex="-1" href="#"><center>Databases</center></a>
 							</div>
 						</li>
 						{% if current_user.is_authenticated %}
-							<li><a href="/offers">Owner Panel</a></li>
+							<li><a href="{{ url_for('admin.offers') }}">Owner Panel</a></li>
 						{% endif %}
 					</ul>
 					<ul class="nav navbar-nav navbar-right container-fluid">
