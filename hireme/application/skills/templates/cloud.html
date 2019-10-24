@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+	<div id="content_holder" style="text-align: center;">
+		<div class="article_holder">
+			<h1>Cloud Technologies</h1>
+			<br>
+			<p class="article_text"> 
+			Cloud is the future, and the future is here. That said, some cloud providers may be unreliable, and should be avoided.
+			It is for this reason that I utilize AWS; I consider this to be the most stable cloud hosting provider, with incredible
+			uptime and data durability. On top of their reliability, they provide a plethora of services. These services greatly
+			expedite the process of horizontal scaling, and environments can be created quickly using Cloudformation's 
+			'Infrastructure as Code' principle.
+			</p>
+			<br><hr><br><br>
+			<h2>AWS And This Website <img src="{{ url_for('static', filename='images/aws_image.png') }}" alt="aws image" width="60" height="60"></img></h2>
+			<p class="article_text">
+			The statements I've made above are nice and all, but so far I haven't provided any examples of my abilities!
+			This website runs on AWS, utilizing not just the web console; the python code used to launch this web application
+			makes use of the Boto3 API to safely handle sensitive transactions. The site itself runs inside of docker containers,
+			managed through Amazon's ECS service. These containers in turn run on EC2 instances running the Centos based AmazonLinux 2 AMI.
+			<br><br>
+			The instances belong to an auto-scaling group which determines the amount of servers needed to handle the current traffic,
+			and it starts/stops the instances as needed. To tie it all together, these servers are all covered via a load balancer, which
+			distributes traffic through this DNS to whichever server is best suited to handle it.
+			<br><br>
+			The section below will describe how this site was set up using these resources.
+			</p>
+			<br><hr><br>
+			<center>
+			<h3><u>EC2</u></h3>
+			<br><hr>
+			</center>
+			<div role="tabpanel" class="tab-pane active container-fluid" id="ec2_info">
+				<div class="row flex-row">
+					<div class="col-md-4">
+						<div class="panel panel-default">
+							<div class="panel-heading"><center>Server</center></div>
+							<div class="panel-body">
+									Due to the low average volume of traffic that this site recieves, the instance is a t2.micro,
+									as it can run fairly cheaply and is powerful enough to handle low activity. This in combination 
+									with auto-scaling groups means that I should be able to handle whatever traffic is thrown at the site.
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="panel panel-default">
+							<div class="panel-heading"><center>Security Groups</center></div>
+							<div class="panel-body">
+									Security groups define the server's firewall rules. Currently, a port for this webserver is open in one
+									or more docker containers running within my instances. The security group for the instance allows traffic
+									only from the load balancer, which is listening on port 443.
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row flex-row">
+					<div class="col-md-4">
+						<div class="panel panel-default">
+							<div class="panel-heading"><center>Load Balancer</center></div>
+							<div class="panel-body">
+									The load balancer accepts traffic publicly, and determines where that traffic should go. If you're on this site,
+									you're not accessing one webserver; rather, multiple at the same time.
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="panel panel-default">
+							<div class="panel-heading"><center>Auto-Scaling</center></div>
+							<div class="panel-body">
+									Sometimes, traffic can be unpredictable. Luckily, this site runs on a fleet of servers managed by an auto-scaling
+									group. The servers will report on their average disk usage, network in/out, etc. to determine if the number of
+									servers should be increased or decreased.
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br><hr><br>
+			<center>
+			<h3><u>ECS</u></h3>
+			</center>
+			<br><hr>
+			<br><hr><br>
+			<center>
+			<h3><u>ECR</u></h3>
+			</center>
+			<br><hr><br>
+			<center>
+			<h3><u>SSM</u></h3>
+			</center>
+			<br><hr>
+		</div>
+	</div>
+{% endblock %}

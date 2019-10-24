@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<center>
+
+ <p class="article_text">
+	<img 
+	src="{{ url_for('static', filename='images/404.png') }}"
+	height="200em" width="250em"></img><br>
+	Whoops! The page you're looking for doesn't exist!</p>
+ <br><br>
+ <a href="{{ url_for('main_app.index') }}" class="article_text">Back to Home Page</a>
+<center>
+{% endblock %}

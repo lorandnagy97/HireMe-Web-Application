@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<center>
+
+ <p class="article_text">
+	<img 
+	src="{{ url_for('static', filename='images/mushroom_cloud.png') }}"
+	height="360em" width="450em"></img><br><br>
+	Whoah! Something broke! No worries, I'm on it!</p>
+ <br><br>
+ <a href="{{ url_for('main_app.index') }}" class="article_text">Back to Home Page</a>
+<center>
+{% endblock %}

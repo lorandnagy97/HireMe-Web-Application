@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+	<div id="content_holder" style="text-align: center;">
+		<div class="article_holder">
+			<h1>Container Technologies</h1>
+			<br>
+			<p class="article_text"> 
+			Containers are taking over the modern IT scene, and it's happening for a reason. These optimized virtual environments
+			greatly speed up the development workflow. They also provide a level of security if run correctly, due to their seperation
+			from the host system. They pair perfectly with cloud technologies, and have a wide range of uses.
+			</p>
+			<br><hr><br><br>
+			<h2>Docker 	<img src="{{ url_for('static', filename='images/docker_image.png') }}" alt="docker image" width="40" height="40"></img></h2>
+			<p class="article_text">
+			Of course, I can't talk about containers without talking about Docker. This website is deployed via a docker container,
+			and runs on multiple servers. I'll be sharing how I went about creating my Dockerfile, as well as how I've integrated
+			this application into my production environment.
+			</p>
+			<br><hr><br><br>
+			
+			<h3>The Dockerfile</h3>
+			<p class="article_text">Below you will find the Dockerfile used to launch this application.</p>
+			<div class="panel panel-default">
+				<div class="panel-heading">Dockerfile</div>
+					<div class="panel-body">
+						FROM amazonlinux:latest
+						<br><br>
+						RUN yum -y update
+						<br><br>
+						RUN yum -y install \
+						<br>
+						python3 \
+						<br>
+						python3-venv \
+						<br>
+						python3-dev \
+						<br>
+						python3-pip \
+						<br>
+						shadow-utils
+						<br><br>
+						COPY requirements.txt requirements.txt
+						<br>
+						RUN python3 -m venv hireme_venv
+						<br>
+						RUN hireme_venv/bin/pip install -r requirements.txt
+						<br>
+						RUN hireme_venv/bin/pip install gunicorn
+						<br><br>
+						RUN useradd -ms /bin/bash hireme
+						<br><br>
+						COPY hireme/ hireme/
+						<br><br>
+						WORKDIR ./hireme/
+						<br>
+						RUN chmod +x ./boot-app.sh
+						<br>
+						ENV FLASK_APP hireme.py
+						<br>
+						<br><br>
+						RUN chown -R hireme:hireme ../hireme/
+						<br>
+						USER hireme
+						<br><br>
+						EXPOSE 5000
+						<br>
+						ENTRYPOINT ["./boot-app.sh"]
+					</div>
+			</div>
+			<br><br>
+			<p class="article_text">
+			This Dockerfile starts with pulling the latest amazonlinux docker image, ensuring that this image is updated
+			each time it is built. To further ensure an updated environment, the next command updates the yum repository.
+			This image then installs the required python packages, as well as shadow-utils (allowing me to use the
+			'useradd' command). We can then install the python modules we need into the virtual environment. 
+			</p>
+			<br><br>
+			<p class="article_text">
+			Lastly, it sets up the needed permissions and environment variables for this application, and runs the shell script 
+			which initializes the webserver (gunicorn). It also exposes a port, which is only accessible from the internal subnet 
+			of the cloud environment. The load balancer then forwards traffic to this port.
+			</p>
+			<br><br>
+			<p class="article_text">
+			Once this image is compiled, it is shipped off to AWS's ECR repository, where images can be stored for usage with their ECS service.
+			</p>
+		</div>
+	</div>
+{% endblock %}
