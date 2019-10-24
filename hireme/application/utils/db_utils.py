@@ -91,7 +91,7 @@ class DbUtility:
         invite_codes = Invite.query.all()
         for invite_code in invite_codes:
             if invite_code.check_code(code)\
-                    and not invite.code_is_used:
+                    and not invite_code.code_is_used:
                 return True, invite_code.code_type
         return False, None
 
@@ -113,7 +113,7 @@ class DbUtility:
                 name=username,
                 email=user_email,
                 created_time=timestamp,
-                urole=code_type
+                user_role=code_type
             )
             user.set_password(password)
             db.session.add(user)

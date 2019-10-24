@@ -1,7 +1,6 @@
 import logging
 import os
-from flask import Flask
-from flask import request
+from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_babel import Babel
@@ -58,16 +57,3 @@ def register_blueprints(app):
         app.register_blueprint(auth_bp, url_prefix='/auth')
         app.register_blueprint(skills_bp, url_prefix='/skills')
         app.register_blueprint(main_bp)
-
-
-@babel.localeselector
-def get_locale(app):
-    """
-    Gets the user's region and allows
-    for proper language translation
-    :param app: flask application instance
-    :return: the best match out of the app's configured languages
-    """
-    return request.accept_languages.best_match(
-        app.config['LANGUAGES']
-    )

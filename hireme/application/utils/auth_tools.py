@@ -40,7 +40,7 @@ def flash_successful_login(form):
     )
 
 
-def is_successful_login(form):
+def process_login_request(form):
     """
     Checks the database to see if the
     user has entered credentials that
@@ -55,5 +55,5 @@ def is_successful_login(form):
         form.password.data
     ):
         flash_failed_login()
-        return False
-    return True
+        return False, None
+    return True, user
