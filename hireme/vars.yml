@@ -1,0 +1,9 @@
+local:
+  db_type: mysql
+  db_host: mysql
+  db_username: hireme
+  db_database: hireme
+  db_password: hireme
+  mail_password: service email app pwd
+  mail_from_name: service email that sends auto messages
+  mail_to_name: administrator email

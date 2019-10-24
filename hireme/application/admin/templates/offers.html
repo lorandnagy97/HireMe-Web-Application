@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<center>
+<br><br><br>
+<div class="container">
+  <div class="panel-group">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" href="#recent_offers">Recent Offers +</a>
+        </h4>
+      </div>
+      <div id="recent_offers" class="panel-collapse collapse">
+        <div class="panel-body">
+		{% for offer in listings %}
+			<div>
+				<p>
+					{{ offer|safe }}
+				</p>
+			</div>
+		{% endfor %}
+		</div>
+        <div class="panel-footer">© 2019 Nagy Investments</div>
+      </div>
+    </div>
+  </div>
+</div>
+</center>
+{% endblock %}

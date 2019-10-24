@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block app_content %}
+	<center>
+		<canvas id="game_layer" width="600em" height="600em"></canvas>
+		<script src="{{ url_for('static', filename='scripts/proceduralGame/globals.js') }}"></script>
+		<script src="{{ url_for('static', filename='scripts/proceduralGame/userInput.js') }}"></script>
+		<script src="{{ url_for('static', filename='scripts/proceduralGame/chunks.js') }}"></script>
+		<script src="{{ url_for('static', filename='scripts/proceduralGame/entities.js') }}"></script>
+		<script src="{{ url_for('static', filename='scripts/proceduralGame/renderer.js') }}"></script>
+		<script src="{{ url_for('static', filename='scripts/proceduralGame/globals.js') }}"></script>
+		<script src="{{ url_for('static', filename='scripts/proceduralGame/physics.js') }}"></script>
+		<script src="{{ url_for('static', filename='scripts/proceduralGame/engine.js') }}"></script>
+	</center>
+	<div id="content_holder" style="text-align: center;">
+		<div class="article_holder">
+			<center>
+				<h1>Javascript Procedural Game</h1>
+			</center>
+			<br>
+			<p class="article_text"> 
+			This game utilizes pure javascript, with no frameworks, to draw onto a HTML5 canvas element. The map
+			is generated via chunks, and each chunk generates its own objects. There's not much to it yet, but
+			the source code is available upon request.
+			</p>
+		</div>
+	</div>
+{% endblock %}

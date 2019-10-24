@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% block app_content %}
+	<center>
+    <h2>Sign In</h2>
+	</center>
+	<div class="row">
+		<div class="col-md-4 col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-xs-12">
+			{{ wtf.quick_form(form) }}
+		</div>
+	</div>
+	<script src="{{ url_for('static', filename='scripts/map.js') }}"></script>
+{% endblock %}

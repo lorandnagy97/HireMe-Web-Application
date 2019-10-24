@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+	<div id="content_holder" style="text-align: center;">
+		<div class="article_holder">
+			<h1>Python</h1>
+			<br>
+			<p class="article_text"> 
+				Python is, in my opinion, one of the most useful programming languages for a multitude of reasons.
+				Surprisingly, it's been around for longer than Java, the most used programming language in the world.
+				Back in 1994, NASA adopted the use of Python for its computing needs. However, it never really managed
+				to hit the mainstream until Google picked it up in the mid 2000s. After that, Python's utility was realized
+				by the world, and as of 2019 it is ranked as the number one programming language in the world (depending on who you ask, of course!).
+			</p>
+			<br><hr><br><br>
+			<h2>Python and this website <img 
+			src="{{ url_for('static', filename='images/python_image.png') }}" 
+			alt="python logo" 
+			width="60" height="60">
+			</img></h2>
+			<p class="article_text">
+				One of the reason's that I am a huge fan of Python is the versatility provided by the extensive library of modules created
+				by the thousands of developers who have come before. A large portion of code written by developers is unfortunately 
+				're-inventing the wheel', so to speak. Python allows for an increase in development speed, due to the fact that the need for
+				writing code at low levels of abstraction is minimized. Additionally, Python's easy to use syntax allows for a developer to write code
+				more fluidly and naturally than a traditional language like Java would allow for. 
+				<br><br>
+				For example, consider the following snippet:<br>
+			</p>
+			<code>
+				ArrayList<String> list = new ArrayList<String>();
+			</code>
+			<br>
+			<code>
+				for(int i = 0; i < list.size(); i++) {<br>
+					&nbsp // do something<br>
+				}<br>
+				<br>
+				OR<br>
+				<br>
+				for(String item : list) {<br>
+					&nbsp // do something<br>
+				}
+			</code>
+			<p class="article_text">
+				<br>
+				Now, sure, the above for loops aren't exactly rocket science, but compare them to the following Python code:
+				<br>
+			</p>
+			<code>
+				list = []<br>
+				for item in list:<br>
+				 &nbsp # do something
+			</code>
+			<p class="article_text">
+				<br>
+				These for loops are just one example of the simplified syntax in Python. At least for me, as a native English speaker,
+				this syntax does wonders for the speed and fluidity with which I write code.
+				<br>
+			</p>
+			<br><br>
+			<p class="article_text">
+				That being said, I do realize that an understanding of these lower levels of abstraction is vital. If one relies completely on
+				frameworks for their programming know-how, it becomes increasingly difficult to troubleshoot faulty code, and to maintain it in the future.
+				It is for this reason that I've demonstrated an understanding of lower levels of abstraction within the javascript section of this website.
+				<br><br>
+				Now, let's move on to how Python (Flask and Boto3 in particular) has been used for this website.
+			</p>
+			<br><hr><br>
+			<center>
+				<h3><u>Flask</u></h3>
+			<br><hr>
+			</center>
+			<p class="article_text">
+				Traditionally, a website like this would be hosted via Apache, Nginx, or a similar solution. That type of web server software requires the tedious setup of
+				.htaccess files, file permissions, virtual hosts, and other manual work which can slow down the development process. I've set up plenty of web servers using
+				those tools, and if needed I can do it again, but I much prefer the simplicity that the Flask framework provides.
+				<br><br>
+				Routing is a particularly tricky part of setting up a website, as there's a lot of considerations to be had. Should file extensions be visible in the URL? Should
+				the URL even lead to the true name of the file at all? What parts of the webserver should the end user not have access to? Flask removes much of the struggle
+				that these questions introduce, thanks to its <b>"render_template"</b> and <b>"redirect"</b> modules.
+				<br><br>
+				When a certain part of the webpage is accessed, Flask reads the path that is requested and checks its routing module. I've written a simple <i>routes.py</i> file
+				that handles all of the links on the site. When I want to add a new page, I can simply add a function to the routes module and presto, it's ready. Below is a
+				routing function that is used for the home page of this website (with file names edited).
+				<br>
+			</p>
+			<code>
+				@app.route('/')<br>
+				@app.route('/index')<br>
+				@app.route('/home')<br>
+				def index():<br>
+					&nbsp content = {<br>
+						&nbsp &nbsp 'title': 'HireMe Home',<br>
+						&nbsp &nbsp 'buzzwords': routing_tools.read_buzzword_file(<br>
+						&nbsp &nbsp &nbsp 'sample-file.txt'<br>
+						&nbsp &nbsp )<br>
+					&nbsp } <br>
+					&nbsp content['first_buzzword'] = \ <br>
+						&nbsp &nbsp content['buzzwords'][0]<br>
+					&nbsp return render_template('sample-file.html',<br>
+										   &nbsp &nbsptitle=content['title'],<br>
+										   &nbsp &nbsp content=content<br>
+										  &nbsp )<br>
+			</code>
+			<br><br>
+			<p class="article_text">
+				In the function above, the 'render_template' function is used to reach a html file and render it for the user. With this process, the file itself is not directly
+				represented by the routed URL; Python simply reads it and recreates it for the user's browser. You may have noticed something else as well; I'm passing certain
+				variables to that render_template function. This is one of my favorite features of flask; Jinja2 allows variables that are defined within the Python code of the application to
+				be passed to the HTML templates to be used by either the HTML itself, or even Javascript. Remember those statements flashing in and out on the homepage? They are read
+				from a text file via Python, and passed to the HTML template where they are defined as a javascript variable. Here's the snippet that does that:
+			</p>
+			<br>
+			<code>
+			{% raw %}
+				&ltscript type="text/javascript"&gt <br>
+					&nbsp var buzzwords = {{ buzzwords | tojson }}; <br>
+				&lt/script&gt <br>
+			{% endraw %}
+			</code>
+			<br><hr><br>
+			<center>
+				<h3><u>Boto3</u></h3>
+			</center>
+			<br><hr>
+			<p class="article_text">
+				One of my favorite Python APIs is Boto3. It allows a developer to utilize AWS's plethora of services, and unlocks the world of cloud computing. Boto3 can do everything from
+				automating CI pipelines, launching fleets of servers, managing IAM users/roles, securely accessing sensitive data, and more! Now, unfortunately this project does not explore
+				all that Boto3 has to offer, however a few services are incorporated which I hope should prove my proficiency in utilizing this API.
+				<br><br><br>
+				<b>Configuration Management</b><br>
+				This website is made to be extremely portable. Assuming you have an AWS account, you can easily launch it yourself! (or if not, it runs locally via a Makefile and Docker!) 
+				The Python backend will read configuration settings for things such as a database endpoint, smtp username, application url, and more. It uses yml format (PyYAML library)
+				to read these configurations into a dictionary. I've set up the site this way as it's much more convenient than hard-coding these details in each time I want to make a change.
+				On top of that, it's just a good security practice to avoid placing these details inside the code, as if the server becomes vulnerable, hackers can have access to much more
+				information.<br><br>
+				Of course, avoiding the hard-coding of these variables only solves half the issue. These variables are read from a configuration file after all, which presents its own security
+				vulnerabilities, and also reduces the flexibility of the application if it's 'built-in'. To get around this, I've used AWS's S3 service (Simple Storage Service). It is secure
+				cloud storage with 99.999999999% data durability, as well as rigid IAM controls, making the data stored within incredibly secure. This application pulls the configurations from
+				S3 and reads the data whenever it is needed, then deletes the file to avoid having a copy on the server. Due to the fact that this is all contained within AWS's internal VPC network,
+				the speed at which that data is accessed does not significantly impact the site's performance.
+				<br><br><br>
+				<b>Secret Management</b><br>
+				The configuration file method I've implemented is satisfactory for some of the data that the server needs access to, but it's not quite good enough for handling <i>really</i> sensitive
+				information, such as database passwords, smtp passwords, etc. For this reason, I've opted to use AWS's SSM service. It stores parameters in the cloud, in an encrypted format, also with
+				strict IAM policies attached. The difference here is that each parameter stored is a simple key/value pair, no files downloaded, just the data for that parameter loaded straight into the
+				backend. Using the Boto3 API, the application can download and decrypt these parameters, using their values to securely access databases and mail credentials.
+				<br><br><br>
+				<b>Why Use This?</b>
+				To sum it up in one word, flexibility. Really, the core of cloud computing is based on flexibility. The application is easily configurable, and can run securely using these resources. 
+				Variables such as passwords, endpoints, and more can be changed easily without having to change the source code, and in some cases without even having to reload the application!
+			</p>
+			<br><hr><br>
+			<center>
+				<h3><u>Conclusion</u></h3>
+			</center>
+			<br><hr>
+			<p class="article_text">
+				Hopefully, this page should show you that I'm adequately familiar with Python, and can perform a variety of tasks. I've done much more with Python than just what I've described here; however,
+				that code was all written under the employ of someone else, so unfortunately I am not free to share it here. Perhaps your organization doesn't utilize AWS, or even cloud computing; If
+				that's the case, worry not! I am an incredibly quick learner, and my experience with Python means I'm confident that I can quickly learn to use any libraries that are needed for any task thrown my way.
+				Still not convinced? Feel free to head to the contact page or just send me an email! I'm up for any challenge; send me the specifications for a piece of code you'd like written and I'll get it
+				done in whatever time frame you set. Thanks for reading through this, I know it's a long read, and I appreciate your time!
+			</p>
+			<br><br><br>
+		</div>
+	</div>
+{% endblock %}

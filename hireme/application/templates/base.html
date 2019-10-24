@@ -1,0 +1,89 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet"
+      href="{{url_for('static', filename='css/base.css')}}">
+{% endblock %}
+
+{% block title %}
+      {% if title %}{{ title }}{% else %}Welcome to HireMe!{% endif %}
+{% endblock %}
+
+{% block navbar %}
+<div class="navbar-wrapper">
+	<div class="container">
+		<nav class="navbar navbar-inverse navbar-static-top offset-3 pull right" id="navbar-with-shadow">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" 
+						data-toggle="collapse" data-target="#navbar"
+						aria-expanded="false" aria-controls="navbar">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<span class="navbar-brand">HireMe</span>
+				</div>
+				<div id="navbar" class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<li><a href="{{ url_for('main_app.index') }}">Home</a></li>
+						<li><a href="{{ url_for('main_app.contact') }}">Contact</a></li>
+						<li class="nav-item dropdown">
+							<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="navbarDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								Skills
+							<span class="caret"></span>
+							</a>
+							<div class="dropdown-menu" role="menu" aria-labelledby="navbarDropdown">
+								<a class="dropdown-item" href="{{ url_for('skills.cloud') }}"><center>Cloud</center></a>
+								<div class="dropdown-divider"><hr style="margin:0px;"></div>
+								<a class="dropdown-item" href="{{ url_for('skills.containers') }}"><center>Containerization</center></a>
+								<div class="dropdown-divider"><hr style="margin:0px;"></div>
+								<a class="dropdown-item" href="{{ url_for('skills.python') }}"><center>Python</center></a>
+								<div class="dropdown-divider"><hr style="margin:0px;"></div>
+								<a class="dropdown-item" href="#"><center>Javascript</center></a>
+								<div class="dropdown-divider"><hr style="margin:0px;"></div>
+								<a class="dropdown-item" href="#"><center>PHP</center></a>
+								<div class="dropdown-divider"><hr style="margin:0px;"></div>
+								<a class="dropdown-item" href="#"><center>Bash</center></a>
+								<div class="dropdown-divider"><hr style="margin:0px;"></div>
+								<a class="dropdown-item" href="#"><center>Databases</center></a>
+							</div>
+						</li>
+						{% if current_user.is_authenticated %}
+							<li><a href="/offers">Owner Panel</a></li>
+						{% endif %}
+					</ul>
+					<ul class="nav navbar-nav navbar-right container-fluid">
+						{% if current_user.is_anonymous %}
+							<li><a href="{{ url_for('auth.register') }}">Sign Up</a></li>
+							<li><a href="{{ url_for('auth.login') }}">Sign In</a></li>
+						{% else %}
+							<li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+						{% endif %}
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</div>
+</div>
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+		{% with messages = get_flashed_messages(with_categories=true) %}
+		{% if messages %}
+			{% for category, message in messages %}
+			<div class="alert alert-{{ category }} alert-dismissible" role="alert"> <span>{{ message }}</span>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			{% endfor %}
+		{% endif %}
+		{% endwith %}
+		
+		{% block app_content %}{% endblock %}
+	</div>
+{% endblock %}
