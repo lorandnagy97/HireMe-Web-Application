@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block app_content %}
 	<center>
+		<p class="article_text"> 
+			W: &nbsp up &nbsp &nbsp A: &nbsp left &nbsp &nbsp S: &nbsp down &nbsp &nbsp D: &nbsp right
+		</p>
 		<canvas id="game_layer" width="600em" height="600em"></canvas>
 		<script src="{{ url_for('static', filename='scripts/proceduralGame/globals.js') }}"></script>
 		<script src="{{ url_for('static', filename='scripts/proceduralGame/userInput.js') }}"></script>
@@ -17,10 +20,11 @@
 				<h1>Javascript Procedural Game</h1>
 			</center>
 			<br>
-			<p class="article_text"> 
-			This game utilizes pure javascript, with no frameworks, to draw onto a HTML5 canvas element. The map
-			is generated via chunks, and each chunk generates its own objects. There's not much to it yet, but
-			the source code is available upon request.
+			<p class="article_text">
+				This game utilizes pure javascript, with no frameworks, to draw onto a HTML5 canvas element. The map
+				is generated via chunks, and each chunk generates its own objects. The purpose of this is to both showcase
+				my current abilities in Javascript, as well as to show my ability to work with lower levels of abstraction. 
+				There's not much to it yet, but the source code is available upon request.
 			</p>
 		</div>
 	</div>

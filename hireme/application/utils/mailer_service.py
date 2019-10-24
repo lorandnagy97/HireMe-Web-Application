@@ -1,14 +1,19 @@
 import boto3
 import smtplib
-
-from wsgi import app
 from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.utils import COMMASPACE, formatdate
+from wsgi import app
 
 
 def load_mail_credentials(param_path):
+    """
+    Uses AWS's boto3 API to securely load
+    parameters from the SSM parameter store.
+    :param param_path: The path (name) of the parameter
+    :return: the decrypted value of the parameter
+    """
     client = boto3.client('ssm', region_name='eu-central-1')
     pw_param = client.get_parameter(
         Name=param_path,
@@ -18,8 +23,19 @@ def load_mail_credentials(param_path):
 
 
 class Mailer:
-
+    """
+    Class which uses google's smtp in order to send
+    various emails according to the application's needs.
+    """
     def __init__(self):
+        """
+        Initializes with mailing info specified in config
+        (mail from, reply to etc). It checks the environment
+        variable ENV, and if it's not a local run it
+        utilizes AWS's SSM service in order to securely
+        access the parameter containing the mail account's
+        application password.
+        """
         self.recipient_addr = app.config['VARS']['mail_to_name']
         self.mailer_addr = app.config['VARS']['mail_from_name']
         if 'local' not in app.config['VARS']['deploy_env']:
@@ -116,6 +132,8 @@ encountered the following error:\n\n{}
         Calls the proper message composition based on
         user specification
         :param type: type of message to send (i.e. error or offer mail)
+        :param content: variable representing the data to be inserted
+        into the email templates
         :return: MIMEText object or None
         """
         if type is 'offer':
@@ -130,6 +148,14 @@ encountered the following error:\n\n{}
         return
 
     def send_email(self, type, content):
+        """
+        This method sends an email to the administrator;
+        the email template used is decided upon by the
+        type argument passed.
+        :param type: which kind of email to send
+        :param content: data to inject into the mail template
+        :return:
+        """
         message = self.prepare_message(type, content)
         server = self.create_smtp_server()
         server.sendmail(
@@ -140,4 +166,10 @@ encountered the following error:\n\n{}
         server.close()
 
     def send_employer_email(self):
+        """
+        This method will be implemented later
+        and will be used to send emails to employer's
+        contact addresses.
+        :return:
+        """
         pass

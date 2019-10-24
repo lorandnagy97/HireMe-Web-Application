@@ -1,6 +1,5 @@
 from datetime import datetime
 from flask import flash
-from sqlalchemy.exc import IntegrityError
 from werkzeug.security import \
     generate_password_hash, check_password_hash
 from application import db
@@ -141,4 +140,3 @@ class DbUtility:
         invite.set_code(code)
         db.session.add(invite)
         db.session.commit()
-

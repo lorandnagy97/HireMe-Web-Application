@@ -1,4 +1,10 @@
 @media (min-width: 992px){
+	
+	a.disabled {
+		color: gray;
+		pointer-events: none;
+	}
+	
     .navbar li {
         margin-left : 1em;
         margin-right : 1em;
