@@ -48,7 +48,6 @@ def login():
     if form.validate_on_submit():
         login_success, user = auth_tools.process_login_request(form)
         if not login_success:
-            auth_tools.flash_failed_login()
             return redirect(url_for('auth.login'))
         login_user(user, remember=will_remember)
         auth_tools.flash_successful_login(form)
