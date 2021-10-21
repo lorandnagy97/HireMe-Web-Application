@@ -1,5 +1,5 @@
 alembic==1.2.1
-Babel==2.7.0
+Babel==2.9.1
 boto3==1.9.246
 botocore==1.12.246
 Click==7.0
